@@ -65,6 +65,10 @@ func getConfigFilePath() cmdarg.Arg {
 func startV2Ray() (core.Server, error) {
 	configFiles := getConfigFilePath()
 
+	if len(configFiles) == 0 {
+		return nil, fmt.Errorf("no config file found; use -config to specify one")
+	}
+
 	config, err := core.LoadConfig(strings.ToLower(*format), configFiles[0], configFiles)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config files: %s", err.Error())
