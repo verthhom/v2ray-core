@@ -122,10 +122,11 @@ func main() {
 	}
 	defer server.Close()
 
-	// Explicitly triggering GC to remove garbage from config loading
-	runtime.GC()
+	// Print a startup message so it's easy to confirm the process is running,
+	// especially useful when tailing logs manually.
+	fmt.Fprintf(os.Stderr, "V2Ray started (pid %d, %s/%s)\n", os.Getpid(), runtime.GOOS, runtime.GOARCH)
 
-	// Wait for signal to stop the server
+	// Wait for termination signals (SIGINT or SIGTERM) to gracefully shut down.
 	osSignals := make(chan os.Signal, 1)
 	signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
 	<-osSignals
