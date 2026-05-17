@@ -97,9 +97,10 @@ func main() {
 
 	flag.Parse()
 
-	printVersion()
-
+	// Only print version info when explicitly requested, not on every startup.
+	// This keeps the log output cleaner when running as a systemd service.
 	if *version {
+		printVersion()
 		return
 	}
 
