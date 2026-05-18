@@ -122,12 +122,12 @@ func main() {
 	}
 	defer server.Close()
 
-	// Print a startup message so it's easy to confirm the process is running,
-	// especially useful when tailing logs manually.
-	fmt.Fprintf(os.Stderr, "V2Ray started (pid %d, %s/%s)\n", os.Getpid(), runtime.GOOS, runtime.GOARCH)
+	// Print the OS and architecture on startup for easier debugging.
+	fmt.Fprintf(os.Stdout, "V2Ray started on %s/%s\n", runtime.GOOS, runtime.GOARCH)
 
-	// Wait for termination signal (SIGTERM or SIGINT).
+	// Wait for termination signal (SIGINT or SIGTERM).
 	osSignals := make(chan os.Signal, 1)
 	signal.Notify(osSignals, os.Interrupt, syscall.SIGTERM)
 	<-osSignals
+	fmt.Println("V2Ray shutting down.")
 }
